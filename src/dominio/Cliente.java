@@ -1,0 +1,39 @@
+package dominio;
+
+public class Cliente {
+    private String cpf;
+    private String nome;
+    private String email;
+    private Conta conta;
+
+    public Cliente(String cpf, String nome, String email, Conta conta) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.email = email;
+        this.conta = conta;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+}
