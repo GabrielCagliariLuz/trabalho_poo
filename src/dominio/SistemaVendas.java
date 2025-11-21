@@ -17,8 +17,9 @@ public class SistemaVendas {
     }
 
     public boolean cadastrarCliente(Cliente cliente){
-        if (!clientesMap.containsKey(cliente.getCpf())){
-            clientesMap.put(cliente.getCpf(), cliente);
+        String id = cliente.getIdentificador();
+        if (!clientesMap.containsKey(id)){
+            clientesMap.put(id, cliente);
             return true;
         }
         return false;
