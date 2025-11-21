@@ -30,7 +30,7 @@ public class Venda {
         return total;
     }
 
-    public boolean finalizarVenda(){
+    public boolean finalizarVenda() throws SaldoInsuficienteException{
         double total = this.calcularTotal();
         return cliente.getConta().debitar(total);
     }

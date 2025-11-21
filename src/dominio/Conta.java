@@ -17,12 +17,16 @@ public class Conta {
         return false;
     }
 
-    public boolean debitar(double valor){
-        if (valor > 0 && this.saldo >= valor){
+    public boolean debitar(double valor) throws SaldoInsuficienteException{
+        if (valor <= 0 ){
+            throw new IllegalArgumentException("Valor de débito inválido.");
+        }
+        if (this.saldo >= valor){
             this.saldo -= valor;
             return true;
+        }else {
+            throw new SaldoInsuficienteException("Saldo insuficiente.");
         }
-        return false;
     }
 
     public int getNumero() {
