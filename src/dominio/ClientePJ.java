@@ -6,7 +6,10 @@ public class ClientePJ extends Cliente{
 
     public ClientePJ(String nome, String email, Conta conta, String cnpj, String razaoSocial) {
         super(nome, email, conta);
-        this.cnpj = cnpj;
+        if (cnpj == null || cnpj.length() != 14) {
+            throw new DocumentoInvalidoException("CNPJ inválido: Deve conter 14 digitos numéricos");
+        }
+            this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
     }
 
