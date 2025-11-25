@@ -124,5 +124,12 @@ public class SistemaVendas {
         clientesRepositorio.salvarParaArquivo();
         produtoRepositorio.salvarParaArquivo();
     }
+    public List<Cliente> listarClientes() {
+        return clientesRepositorio.listarTodos();
+    }
+
+    public List<Produto> listarProdutos() {
+        return produtoRepositorio.listarTodos();
+    }
 
 }
