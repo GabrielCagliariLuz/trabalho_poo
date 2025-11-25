@@ -88,4 +88,41 @@ public class SistemaVendas {
         return venda.finalizarVenda();
     }
 
+    public void carregarDados(){
+        List<String> linhasProdutos = produtoRepositorio.carregarLinhasDoArquivo();
+        for (String linha: linhasProdutos){
+            try {
+                Produto p = Produto.fromString(linha);
+                produtoRepositorio.adicionar(String.valueOf(p.getCodigo()), p);
+            }catch (Exception e){
+                System.err.println("Erro ao carregar Produto: "+ e.getMessage());
+            }
+        }
+        List<String> linhasClientes = clientesRepositorio.carregarLinhasDoArquivo();
+        for (String linha: linhasClientes){
+            try {
+                Cliente c = null;
+                if (linha.startsWith("PF;")){
+                    String dados = linha.substring(3);
+                    c = ClientePF.fromString(dados);
+                } else if (linha.startsWith("PJ;")) {
+                    String dados = linha.substring(3);
+                    c = ClientePJ.fromString(dados);
+                }
+                if (c != null){
+                    clientesRepositorio.adicionar(c.getIdentificador(), c);
+                }
+            }catch (DocumentoInvalidoException e){
+                System.err.println("Erro de validação ao carregar cliente: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar Cliente: " + e.getMessage());
+            }
+        }
+    }
+
+    public void salvarDados(){
+        clientesRepositorio.salvarParaArquivo();
+        produtoRepositorio.salvarParaArquivo();
+    }
+
 }

@@ -1,6 +1,6 @@
 package dominio;
 
-public class Conta {
+public class Conta implements Persistivel{
     private int numero;
     private double saldo;
 
@@ -29,11 +29,25 @@ public class Conta {
         }
     }
 
+    public boolean transferir(Conta destino, double valor) throws SaldoInsuficienteException{
+        if (this.debitar(valor)){
+            return destino.depositar(valor);
+        }
+        return false;
+    }
+
     public int getNumero() {
         return numero;
     }
 
     public double getSaldo() {
         return saldo;
+    }
+
+    @Override
+    public String toLineString() {
+        return String.format("%d;%.2f",
+                this.numero,
+                this.saldo);
     }
 }

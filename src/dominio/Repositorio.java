@@ -1,8 +1,6 @@
 package dominio;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,6 +27,22 @@ public class Repositorio <T extends Persistivel>{
         }catch (Exception e){
             System.err.println("Erro ao salvar dados no arquivo: "+ this.nomeArquivo);
         }
+    }
+
+    public List<String> carregarLinhasDoArquivo(){
+        List<String> linhas = new ArrayList<>();
+        try(BufferedReader reader = new BufferedReader(new FileReader(this.nomeArquivo))){
+            String linha;
+            while ((linha = reader.readLine())!= null){
+                if (!linha.trim().isEmpty()){
+                    linhas.add(linha);
+                }
+            }
+            System.out.println("Dados lidos com sucesso de: "+ this.nomeArquivo);
+        }catch (IOException e){
+            System.err.println("Arquivo de dados não encontrado ou erro na leitura: "+ this.nomeArquivo + ". Inicializado com dados vazios.");
+        }
+        return linhas;
     }
 
     public boolean adicionar(String chave, T item){
