@@ -9,7 +9,7 @@ public class ClientePJ extends Cliente{
         if (cnpj == null || cnpj.length() != 14) {
             throw new DocumentoInvalidoException("CNPJ inválido: Deve conter 14 digitos numéricos");
         }
-            this.cnpj = cnpj;
+        this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;
     }
 

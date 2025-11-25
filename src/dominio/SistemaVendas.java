@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public class SistemaVendas {
-    private Map<String, Cliente> clientesMap;
-    private Map<Integer, Produto> produtosMap;
+    //private Map<String, Cliente> clientesMap;
+    //private Map<Integer, Produto> produtosMap;
+    private Repositorio<Cliente> clientesRepositorio;
+    private Repositorio<Produto> produtoRepositorio;
     private List<Venda> vendas;
     private int countCodigoVendas = 1;
 
     public SistemaVendas() {
-        this.clientesMap = new HashMap<>();
-        this.produtosMap = new HashMap<>();
+        this.clientesRepositorio = new Repositorio<>("clientes.txt");
+        this.produtoRepositorio = new Repositorio<>("produtos.txt");
         this.vendas = new ArrayList<>();
     }
 
@@ -23,33 +25,20 @@ public class SistemaVendas {
 
     public boolean cadastrarCliente(Cliente cliente){
         String id = cliente.getIdentificador();
-        if (!clientesMap.containsKey(id)){
-            clientesMap.put(id, cliente);
-            return true;
-        }
-        return false;
+        return clientesRepositorio.adicionar(id, cliente);
     }
 
     public boolean cadastrarProduto(Produto produto){
-        int codigo = produto.getCodigo();
-        if (!produtosMap.containsKey(codigo)){
-            produtosMap.put(codigo, produto);
-            return true;
-        }
-        return false;
+        String codigoStr = String.valueOf(produto.getCodigo());
+        return produtoRepositorio.adicionar(codigoStr, produto);
+
     }
     public Cliente buscarClientePorIdentificador(String identificador){
-        if (clientesMap.containsKey(identificador)){
-            return clientesMap.get(identificador);
-        }
-        return null;
+        return clientesRepositorio.buscar(identificador);
     }
 
     public Produto buscarProdutoPorCodigo(int codigo){
-        if (produtosMap.containsKey(codigo)){
-            return produtosMap.get(codigo);
-        }
-        return null;
+        return produtoRepositorio.buscar(String.valueOf(codigo));
     }
 
     public Venda buscarVendaPorCodigo(int codigo){

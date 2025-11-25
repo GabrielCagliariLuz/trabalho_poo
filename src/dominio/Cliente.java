@@ -1,6 +1,6 @@
 package dominio;
 
-public abstract class Cliente {
+public abstract class Cliente implements Persistivel {
     private String nome;
     private String email;
     private Conta conta;
