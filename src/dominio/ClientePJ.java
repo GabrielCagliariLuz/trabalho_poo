@@ -1,6 +1,9 @@
 package dominio;
 
-public class ClientePJ extends Cliente implements Persistivel{
+/**
+ * Cliente pessoa jurídica (CNPJ + razão social).
+ */
+public class ClientePJ extends Cliente {
     private String cnpj;
     private String razaoSocial;
 
@@ -24,13 +27,13 @@ public class ClientePJ extends Cliente implements Persistivel{
                 this.getConta().getSaldo());
     }
 
-    public static ClientePJ fromString(String linha){
+    public static ClientePJ fromString(String linha) {
         String[] partes = linha.split(";");
         int numConta = Integer.parseInt(partes[4]);
         double saldoConta = Double.parseDouble(partes[5]);
         Conta conta = new Conta(numConta);
         conta.depositar(saldoConta);
-        return new ClientePJ(partes[1],partes[2],conta, partes[0],partes[3]);
+        return new ClientePJ(partes[1], partes[2], conta, partes[0], partes[3]);
     }
 
     @Override

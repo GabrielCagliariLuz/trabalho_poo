@@ -1,6 +1,9 @@
 package dominio;
 
-public class Produto implements Persistivel{
+/**
+ * Modelo de produto contendo código, nome, preço e tipo.
+ */
+public class Produto implements Persistivel {
     private int codigo;
     private String nome;
     private double preco;
@@ -19,11 +22,11 @@ public class Produto implements Persistivel{
                 this.codigo,
                 this.nome,
                 this.preco,
-                //name tipo string (%s)
+                // name tipo string (%s)
                 this.tipo.name());
     }
 
-    public static Produto fromString(String linha){
+    public static Produto fromString(String linha) {
         String[] partes = linha.split(";");
         int codigo = Integer.parseInt(partes[0]);
         String nome = partes[1];

@@ -1,5 +1,10 @@
 package interfaceGrafica;
 
+/**
+ * Interface gráfica principal (Swing) com abas para gerenciar clientes,
+ * produtos e vendas. Integra com o `SistemaVendas` do pacote `dominio`.
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -50,7 +55,7 @@ public class TelaPrincipal extends JFrame {
         JTextField txtDocumento = new JTextField(); // CPF ou CNPJ
         JTextField txtRazaoSocial = new JTextField(); // Só para PJ
 
-        JComboBox<String> cbTipo = new JComboBox<>(new String[]{"Pessoa Física", "Pessoa Jurídica"});
+        JComboBox<String> cbTipo = new JComboBox<>(new String[] { "Pessoa Física", "Pessoa Jurídica" });
 
         formPanel.add(new JLabel("Tipo de Cliente:"));
         formPanel.add(cbTipo);
@@ -71,7 +76,8 @@ public class TelaPrincipal extends JFrame {
         cbTipo.addActionListener(e -> {
             boolean isPJ = cbTipo.getSelectedItem().equals("Pessoa Jurídica");
             txtRazaoSocial.setEnabled(isPJ);
-            if (!isPJ) txtRazaoSocial.setText("");
+            if (!isPJ)
+                txtRazaoSocial.setText("");
         });
 
         JButton btnSalvar = new JButton("Cadastrar Cliente");
@@ -79,7 +85,7 @@ public class TelaPrincipal extends JFrame {
         formPanel.add(btnSalvar);
 
         // Tabela de Listagem
-        String[] colunas = {"ID/Doc", "Nome", "Email", "Tipo", "Saldo"};
+        String[] colunas = { "ID/Doc", "Nome", "Email", "Tipo", "Saldo" };
         DefaultTableModel model = new DefaultTableModel(colunas, 0);
         JTable table = new JTable(model);
         atualizarTabelaClientes(model); // Método auxiliar para preencher tabela
@@ -103,7 +109,10 @@ public class TelaPrincipal extends JFrame {
                     JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
                     atualizarTabelaClientes(model);
                     // Limpar campos
-                    txtNome.setText(""); txtEmail.setText(""); txtDocumento.setText(""); txtRazaoSocial.setText("");
+                    txtNome.setText("");
+                    txtEmail.setText("");
+                    txtDocumento.setText("");
+                    txtRazaoSocial.setText("");
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro: Cliente já existe.");
                 }
@@ -143,7 +152,7 @@ public class TelaPrincipal extends JFrame {
         formPanel.add(new JLabel(""));
         formPanel.add(btnSalvar);
 
-        String[] colunas = {"Código", "Nome", "Preço", "Tipo"};
+        String[] colunas = { "Código", "Nome", "Preço", "Tipo" };
         DefaultTableModel model = new DefaultTableModel(colunas, 0);
         JTable table = new JTable(model);
         atualizarTabelaProdutos(model);
@@ -159,7 +168,9 @@ public class TelaPrincipal extends JFrame {
                 if (sistema.cadastrarProduto(p)) {
                     JOptionPane.showMessageDialog(this, "Produto cadastrado!");
                     atualizarTabelaProdutos(model);
-                    txtCodigo.setText(""); txtNome.setText(""); txtPreco.setText("");
+                    txtCodigo.setText("");
+                    txtNome.setText("");
+                    txtPreco.setText("");
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro: Código de produto já existe.");
                 }
@@ -199,9 +210,9 @@ public class TelaPrincipal extends JFrame {
         itemPanel.add(btnAdicionar);
 
         // Estado da venda atual
-        final Venda[] vendaAtual = {null};
+        final Venda[] vendaAtual = { null };
 
-        String[] colunas = {"Produto", "Preço Unit.", "Qtd", "Subtotal"};
+        String[] colunas = { "Produto", "Preço Unit.", "Qtd", "Subtotal" };
         DefaultTableModel modelItens = new DefaultTableModel(colunas, 0);
         JTable tableItens = new JTable(modelItens);
         JLabel lblTotal = new JLabel("Total da Venda: R$ 0.00");
@@ -235,7 +246,8 @@ public class TelaPrincipal extends JFrame {
 
         btnAdicionar.addActionListener(e -> {
             try {
-                if (vendaAtual[0] == null) return;
+                if (vendaAtual[0] == null)
+                    return;
                 int codProd = Integer.parseInt(txtCodProduto.getText());
                 int qtd = Integer.parseInt(txtQtd.getText());
 
@@ -254,7 +266,8 @@ public class TelaPrincipal extends JFrame {
         });
 
         btnFinalizar.addActionListener(e -> {
-            if (vendaAtual[0] == null) return;
+            if (vendaAtual[0] == null)
+                return;
             try {
                 boolean sucesso = sistema.finalizarVenda(vendaAtual[0].getCodigo());
                 if (sucesso) {
@@ -292,17 +305,21 @@ public class TelaPrincipal extends JFrame {
         JButton btnDepositar = new JButton("Realizar Depósito");
         JButton btnConsultar = new JButton("Consultar Saldo");
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         panel.add(new JLabel("ID do Cliente (CPF/CNPJ):"), gbc);
         gbc.gridx = 1;
         panel.add(txtIdCliente, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         panel.add(new JLabel("Valor R$:"), gbc);
         gbc.gridx = 1;
         panel.add(txtValor, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
         panel.add(btnDepositar, gbc);
 
         gbc.gridy = 3;
@@ -316,7 +333,8 @@ public class TelaPrincipal extends JFrame {
 
                 if (c != null) {
                     c.getConta().depositar(valor);
-                    JOptionPane.showMessageDialog(this, "Depósito realizado! Novo saldo: R$ " + c.getConta().getSaldo());
+                    JOptionPane.showMessageDialog(this,
+                            "Depósito realizado! Novo saldo: R$ " + c.getConta().getSaldo());
                 } else {
                     JOptionPane.showMessageDialog(this, "Cliente não encontrado.");
                 }
@@ -329,7 +347,8 @@ public class TelaPrincipal extends JFrame {
             String id = txtIdCliente.getText();
             Cliente c = sistema.buscarClientePorIdentificador(id);
             if (c != null) {
-                JOptionPane.showMessageDialog(this, "Cliente: " + c.getNome() + "\nSaldo: R$ " + c.getConta().getSaldo());
+                JOptionPane.showMessageDialog(this,
+                        "Cliente: " + c.getNome() + "\nSaldo: R$ " + c.getConta().getSaldo());
             } else {
                 JOptionPane.showMessageDialog(this, "Cliente não encontrado.");
             }
@@ -345,7 +364,8 @@ public class TelaPrincipal extends JFrame {
         try {
             for (Cliente c : sistema.listarClientes()) {
                 String tipo = (c instanceof ClientePF) ? "PF" : "PJ";
-                model.addRow(new Object[]{c.getIdentificador(), c.getNome(), c.getEmail(), tipo, c.getConta().getSaldo()});
+                model.addRow(new Object[] { c.getIdentificador(), c.getNome(), c.getEmail(), tipo,
+                        c.getConta().getSaldo() });
             }
         } catch (Exception e) {
             // Caso o método não exista ainda, evita quebrar a tela
@@ -357,7 +377,7 @@ public class TelaPrincipal extends JFrame {
         model.setRowCount(0);
         try {
             for (Produto p : sistema.listarProdutos()) {
-                model.addRow(new Object[]{p.getCodigo(), p.getNome(), p.getPreco(), p.getTipo()});
+                model.addRow(new Object[] { p.getCodigo(), p.getNome(), p.getPreco(), p.getTipo() });
             }
         } catch (Exception e) {
             System.err.println("Método listarProdutos não implementado no backend ainda.");
@@ -366,8 +386,8 @@ public class TelaPrincipal extends JFrame {
 
     private void atualizarTabelaItens(DefaultTableModel model, Venda venda, JLabel lblTotal) {
         model.setRowCount(0);
-        for(ItemVenda item : venda.getItens()){
-            model.addRow(new Object[]{
+        for (ItemVenda item : venda.getItens()) {
+            model.addRow(new Object[] {
                     item.getProduto().getNome(),
                     item.getProduto().getPreco(),
                     item.getQuantidade(),

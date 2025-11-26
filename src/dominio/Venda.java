@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Representa uma venda composta por itens, data e cliente responsável.
+ * Permite calcular o total e finalizar debitando a conta do cliente.
+ */
 public class Venda {
     private int codigo;
     private Date data;
@@ -17,20 +21,20 @@ public class Venda {
         this.itens = new ArrayList<>();
     }
 
-    public void adicionarItem(Produto produto, int quantidade){
-        ItemVenda item = new ItemVenda(produto,quantidade);
+    public void adicionarItem(Produto produto, int quantidade) {
+        ItemVenda item = new ItemVenda(produto, quantidade);
         this.itens.add(item);
     }
 
-    public double calcularTotal(){
+    public double calcularTotal() {
         double total = 0.0;
-        for (ItemVenda item: itens){
+        for (ItemVenda item : itens) {
             total += item.calcularSubtotal();
         }
         return total;
     }
 
-    public boolean finalizarVenda() throws SaldoInsuficienteException{
+    public boolean finalizarVenda() throws SaldoInsuficienteException {
         double total = this.calcularTotal();
         return cliente.getConta().debitar(total);
     }

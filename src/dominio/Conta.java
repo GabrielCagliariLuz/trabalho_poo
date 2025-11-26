@@ -1,6 +1,10 @@
 package dominio;
 
-public class Conta implements Persistivel{
+/**
+ * Representa uma conta bancária simples com número e saldo.
+ * Fornece operações de depósito, débito e transferência.
+ */
+public class Conta implements Persistivel {
     private int numero;
     private double saldo;
 
@@ -9,28 +13,28 @@ public class Conta implements Persistivel{
         this.saldo = 0.0;
     }
 
-    public boolean depositar(double valor){
-        if (valor > 0){
+    public boolean depositar(double valor) {
+        if (valor > 0) {
             this.saldo += valor;
             return true;
         }
         return false;
     }
 
-    public boolean debitar(double valor) throws SaldoInsuficienteException{
-        if (valor <= 0 ){
+    public boolean debitar(double valor) throws SaldoInsuficienteException {
+        if (valor <= 0) {
             throw new IllegalArgumentException("Valor de débito inválido.");
         }
-        if (this.saldo >= valor){
+        if (this.saldo >= valor) {
             this.saldo -= valor;
             return true;
-        }else {
+        } else {
             throw new SaldoInsuficienteException("Saldo insuficiente.");
         }
     }
 
-    public boolean transferir(Conta destino, double valor) throws SaldoInsuficienteException{
-        if (this.debitar(valor)){
+    public boolean transferir(Conta destino, double valor) throws SaldoInsuficienteException {
+        if (this.debitar(valor)) {
             return destino.depositar(valor);
         }
         return false;

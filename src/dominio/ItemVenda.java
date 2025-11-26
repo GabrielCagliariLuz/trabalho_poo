@@ -1,5 +1,8 @@
 package dominio;
 
+/**
+ * Representa um item dentro de uma venda: produto + quantidade.
+ */
 public class ItemVenda {
     private Produto produto;
     private int quantidade;
@@ -9,7 +12,7 @@ public class ItemVenda {
         this.quantidade = quantidade;
     }
 
-    public double calcularSubtotal(){
+    public double calcularSubtotal() {
         return produto.getPreco() * quantidade;
     }
 
