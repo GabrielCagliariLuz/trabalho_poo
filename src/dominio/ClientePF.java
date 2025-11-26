@@ -23,7 +23,7 @@ public class ClientePF extends Cliente {
      */
     @Override
     public String toLineString() {
-        return String.format("PF;%s;%s;%s;%d;%.2f",
+        return String.format(java.util.Locale.US,"PF;%s;%s;%s;%d;%.2f",
                 this.getIdentificador(),
                 this.getNome(),
                 this.getEmail(),
@@ -37,7 +37,7 @@ public class ClientePF extends Cliente {
     public static ClientePF fromString(String linha) {
         String[] partes = linha.split(";");
         int numConta = Integer.parseInt(partes[3]);
-        double saldoConta = Double.parseDouble(partes[4]);
+        double saldoConta = Double.parseDouble(partes[4].replace(",","."));
         Conta conta = new Conta(numConta);
         conta.depositar(saldoConta);
         return new ClientePF(partes[1], partes[2], conta, partes[0]);

@@ -18,7 +18,7 @@ public class Produto implements Persistivel {
 
     @Override
     public String toLineString() {
-        return String.format("%d;%s;%.2f;%s",
+        return String.format(java.util.Locale.US,"%d;%s;%.2f;%s",
                 this.codigo,
                 this.nome,
                 this.preco,
@@ -30,7 +30,7 @@ public class Produto implements Persistivel {
         String[] partes = linha.split(";");
         int codigo = Integer.parseInt(partes[0]);
         String nome = partes[1];
-        double preco = Double.parseDouble(partes[2]);
+        double preco = Double.parseDouble(partes[2].replace(",","."));
         TipoProduto tipoProduto = TipoProduto.valueOf(partes[3]);
         Produto produto = new Produto(codigo, nome, preco, tipoProduto);
         return produto;

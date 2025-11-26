@@ -1,0 +1,2 @@
+1;Chuteira Campo;349.99;FISICO
+2;Mouse Dell;80.00;FISICO

@@ -33,7 +33,6 @@ public class RelatorioVendas {
      */
     public Map<String, ProdutoVendidoInfo> relatorioProdurosVendidos() {
         Map<String, ProdutoVendidoInfo> produtosVendidos = new LinkedHashMap<>();
-
         for (Venda venda : vendas) {
             for (ItemVenda item : venda.getItens()) {
                 Produto p = item.getProduto();

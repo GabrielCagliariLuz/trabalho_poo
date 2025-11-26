@@ -18,7 +18,7 @@ public class ClientePJ extends Cliente {
 
     @Override
     public String toLineString() {
-        return String.format("PJ;%s;%s;%s;%s;%d;%.2f",
+        return String.format(java.util.Locale.US,"PJ;%s;%s;%s;%s;%d;%.2f",
                 this.getIdentificador(),
                 this.getNome(),
                 this.getEmail(),
@@ -30,7 +30,7 @@ public class ClientePJ extends Cliente {
     public static ClientePJ fromString(String linha) {
         String[] partes = linha.split(";");
         int numConta = Integer.parseInt(partes[4]);
-        double saldoConta = Double.parseDouble(partes[5]);
+        double saldoConta = Double.parseDouble(partes[5].replace(",","."));
         Conta conta = new Conta(numConta);
         conta.depositar(saldoConta);
         return new ClientePJ(partes[1], partes[2], conta, partes[0], partes[3]);
