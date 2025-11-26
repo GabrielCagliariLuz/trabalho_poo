@@ -40,6 +40,7 @@ public class TelaPrincipal extends JFrame {
         tabbedPane.add("Produtos", criarPainelProdutos());
         tabbedPane.add("Vendas", criarPainelVendas());
         tabbedPane.add("Monetização", criarPainelMonetizacao());
+        tabbedPane.add("Relatórios", criarPainelRelatorios());
 
         add(tabbedPane);
     }
@@ -395,6 +396,98 @@ public class TelaPrincipal extends JFrame {
             });
         }
         lblTotal.setText("Total da Venda: R$ " + String.format("%.2f", venda.calcularTotal()));
+    }
+
+    // --- PAINEL DE RELATÓRIOS ---
+    private JPanel criarPainelRelatorios() {
+        JPanel panel = new JPanel(new BorderLayout());
+
+        // Painel de botões para seleção de relatórios
+        JPanel btnPanel = new JPanel(new FlowLayout());
+
+        JButton btnRelProdutos = new JButton("Produtos Vendidos");
+        JButton btnRelClientes = new JButton("Clientes - Top Compras");
+        JButton btnRelMovimentacao = new JButton("Movimentação de Contas");
+        JButton btnRelResumo = new JButton("Resumo Geral");
+
+        btnPanel.add(btnRelProdutos);
+        btnPanel.add(btnRelClientes);
+        btnPanel.add(btnRelMovimentacao);
+        btnPanel.add(btnRelResumo);
+
+        // Área de texto para exibir relatórios
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Courier New", Font.PLAIN, 11));
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        // Ação: Relatório de Produtos Vendidos
+        btnRelProdutos.addActionListener(e -> {
+            RelatorioVendas relatorio = sistema.gerarRelatorio();
+            var produtosVendidos = relatorio.relatorioProdurosVendidos();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("=== RELATÓRIO DE PRODUTOS VENDIDOS ===\n\n");
+            if (produtosVendidos.isEmpty()) {
+                sb.append("Nenhum produto foi vendido ainda.\n");
+            } else {
+                for (var entry : produtosVendidos.entrySet()) {
+                    sb.append(entry.getValue()).append("\n");
+                }
+            }
+            textArea.setText(sb.toString());
+        });
+
+        // Ação: Relatório de Clientes - Top Compras
+        btnRelClientes.addActionListener(e -> {
+            RelatorioVendas relatorio = sistema.gerarRelatorio();
+            var clientesTop = relatorio.relatorioClientesMaisCompram();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("=== RANKING: CLIENTES QUE MAIS COMPRAM ===\n\n");
+            if (clientesTop.isEmpty()) {
+                sb.append("Nenhuma compra realizada ainda.\n");
+            } else {
+                int rank = 1;
+                for (var cliente : clientesTop) {
+                    sb.append(String.format("%dº lugar: %s\n", rank++, cliente)).append("\n");
+                }
+            }
+            textArea.setText(sb.toString());
+        });
+
+        // Ação: Relatório de Movimentação de Contas
+        btnRelMovimentacao.addActionListener(e -> {
+            RelatorioVendas relatorio = sistema.gerarRelatorio();
+            var clientesMovimentacao = relatorio.relatorioClientesMovimentacao();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("=== RANKING: CLIENTES COM MAIS OPERAÇÕES DE MONETIZAÇÃO ===\n\n");
+            if (clientesMovimentacao.isEmpty()) {
+                sb.append("Nenhum cliente cadastrado.\n");
+            } else {
+                int rank = 1;
+                for (var cliente : clientesMovimentacao) {
+                    sb.append(String.format("%dº lugar: %s\n", rank++, cliente)).append("\n");
+                }
+            }
+            textArea.setText(sb.toString());
+        });
+
+        // Ação: Resumo Geral
+        btnRelResumo.addActionListener(e -> {
+            RelatorioVendas relatorio = sistema.gerarRelatorio();
+            var resumo = relatorio.gerarResumo();
+            textArea.setText(resumo.toString());
+        });
+
+        panel.add(btnPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        return panel;
     }
 
     public static void main(String[] args) {

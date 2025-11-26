@@ -138,4 +138,22 @@ public class SistemaVendas {
         return produtoRepositorio.listarTodos();
     }
 
+    /**
+     * Retorna um objeto RelatorioVendas para gerar análises e estatísticas.
+     *
+     * @return instância de RelatorioVendas com os dados do sistema
+     */
+    public RelatorioVendas gerarRelatorio() {
+        return new RelatorioVendas(vendas, listarClientes(), listarProdutos());
+    }
+
+    /**
+     * Retorna a lista de todas as vendas realizadas.
+     *
+     * @return lista de vendas
+     */
+    public List<Venda> listarVendas() {
+        return new ArrayList<>(vendas);
+    }
+
 }
